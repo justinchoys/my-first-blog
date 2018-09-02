@@ -107,7 +107,70 @@ python manage.py createsuperuser
 #add new URL paths to mysite/urls.py to direct [url]/ requests to blog.urls
 #create urls.py in blog directory and assign 'view' called 'post_list' to root URL
 #This pattern will tell Django that views.post_list is the right place to go if someone enters your website at the 'http://127.0.0.1:8000/' address.
+#now in blog/views.py, create a post_list function that renders parameter 'request' by rendering with blog/post_list.html
+#this render function will look in local template/ folder and search for the html file to render content with
 
+
+##DJango ORM and QuerySets
+
+python manage.py shell
+#enables you to access Django's interactive console (Python + Django lib)
+from blog.models import Post
+Post.objects.all()
+#list of posts created
+
+from django.contrib.auth.models import User
+User.objects.all()
+#return list of all users
+me = User.objects.get(username='jchoys')
+Post.objects.create(author=me, title='Sample title', text='Test')
+#creates new Post object with parameters as inputs
+
+Post.objects.all()
+#returns list of Posts including the latest one made above
+
+#You can also filter QuerySets by replacing all()w ith filter
+Post.objects.filter(author=me)
+#returns list of Post objects with author as me
+
+Post.objects.filter(title__contains='title')
+#__ is used by Django ORM to separate field names (title) and operations/filters (contains)
+
+from django.utils import timezone
+Post.objects.filter(published_date__lte=timezone.now())
+#post we just added on console is not published yet so it doesn't have published_date yet
+#lets fix this
+
+post = Post.objects.get(title="Sample title")
+post.publish()
+#this publishes the post so that it has a published_date attribute
+
+#we can also order objects
+Post.objects.order_by('created_date')
+#or reverse order
+Post.objects.order_by('-created_date')
+
+#finally we cal also combine QuerySets by chaining them together
+Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+
+
+#so far we have Post model in models.py, post_list in views.py, and post_list.html in templates
+#how do we get posts to display in HTML? take content (model saved in database) to display in template?
+#we do this with 'views' that connect models and template
+
+#import Post and timezone into blog/views.py
+#create a QuerySet variable post that represents ordered list of Post objects inside post_list view function
+posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+#pass this post variable into the render function inside {} so it is {'posts' : posts}
+
+#now access post_list.html and embed python code into html using {{}} for variables and {% code %} for code
+# {% for post in posts %}
+#     <div>
+#         <p>published: {{ post.published_date }}</p>
+#         <h1><a href="">{{ post.title }}</a></h1>
+#         <p>{{ post.text|linebreaksbr }}</p>
+#     </div>
+# {% endfor %}
 
 
 

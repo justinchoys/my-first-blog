@@ -7,16 +7,13 @@
             <h1><a href="/">Justin's Blog</a></h1>
         </div>
 
-        <div>
-            <p>published: Sept 2, 2018 14:49</p>
-            <h2><a href="">My first post</a></h2>
-            <p>Welcome to my new blog. This is a test post.</p>
-        </div>
+        {% for post in posts %}
+            <div>
+                <p>published: {{ post.published_date }}</p>
+                <h1><a href="">{{ post.title }}</a></h1>
+                <p>{{ post.text|linebreaksbr }}</p>  <!-- convert line-breaks into paragraphs -->
+            </div>
+        {% endfor %}
 
-        <div>
-            <p>published: Sept 2, 2018 14:53</p>
-            <h2><a href="">My second post</a></h2>
-            <p>This is my second post. Testing 123.</p>
-        </div>
     </body>
 </html>
