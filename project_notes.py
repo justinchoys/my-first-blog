@@ -103,7 +103,11 @@ python manage.py createsuperuser
 
 #workflow: work on local setup to maek cahnges, push to GitHub, pull changes down to live Web server
 
-#in Django, URLconf is set of patters that Django will tr yto match the requested URL to find the correct view
+#in Django, URLconf is set of patterns that Django will tr yto match the requested URL to find the correct view
+#add new URL paths to mysite/urls.py to direct [url]/ requests to blog.urls
+#create urls.py in blog directory and assign 'view' called 'post_list' to root URL
+#This pattern will tell Django that views.post_list is the right place to go if someone enters your website at the 'http://127.0.0.1:8000/' address.
+
 
 
 
