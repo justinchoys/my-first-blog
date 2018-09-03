@@ -211,4 +211,43 @@ posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('publis
 #make sure to handle non-existent pk numbers by using get_object_or_404 function from django.shortcuts
 #finally, create template for post_detail.html
 
+##Using ModeForm to update blog instead of Admin
+#forms have their own file forms.py under blog (like models.py)
+# class Post(models.Model):
+# 	#https://docs.djangoproject.com/en/2.0/ref/models/fields/#field-types
+#     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+#     title = models.CharField(max_length=200)
+#     text = models.TextField()
+#     created_date = models.DateTimeField(
+#             default=timezone.now)
+#     published_date = models.DateTimeField(
+#             blank=True, null=True)
 
+#     def publish(self):
+#         self.published_date = timezone.now()
+#         self.save()
+
+#     def __str__(self):
+#         return self.title
+
+
+
+#vs
+
+
+
+# class PostForm(forms.ModelForm):
+
+#     class Meta:
+#         model = Post
+#         fields = ('title', 'text',)
+
+#Note how they are similar, but PostForm requires an import of Post from models
+#PostForm is subclass of ModelForm
+#class Meta tells Django which model should be used to create the form (Post)
+#we also specify which fields show up in the form (title and text), author is current user, and created_date should be automatically (see models.py)
+
+
+
+
+#
